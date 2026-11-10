@@ -1,27 +1,36 @@
-# Mini guideline — bài làm cá nhân
-
-> Điền nội dung này trước khi bắt đầu gán nhãn. Giữ lại các quyết định sau khi self-QC.
+# Mini Guideline - MaiVanPhong - 2A202603256
 
 ## Định nghĩa lớp
+- 0 car: xe con, sedan, SUV, taxi, xe bán tải.
+- 1 truck: xe tải chở hàng, xe đầu kéo.
+- 2 bus: xe buýt, minibus chở khách.
+- 3 van: van/minivan chở hàng hoặc chở người.
 
-| Lớp | Định nghĩa của bạn | Ví dụ/điểm phân biệt |
-| --- | --- | --- |
-| `car` | | |
-| `truck` | | |
-| `bus` | | |
-| `van` | | |
+## Quy tắc vẽ box
+- Box bám sát phần nhìn thấy của xe, không để dư nền.
+- Xe đỗ vẫn gán; xe bị che một phần vẫn gán nếu đủ để nhận lớp.
+- Xe bị cắt ở mép khung: gán phần nhìn thấy nếu còn nhận ra được lớp.
+- Xe rất nhỏ ở xa không gán (diện tích box dưới 0.1% ảnh; dưới 0.3% ảnh
+  nếu nằm ở 25% phía trên của ảnh).
 
-## Quy tắc chung
+## Ca mơ hồ
+1. car hay van: xe thân cao dạng hộp, nhìn xa hoặc nhìn chéo thì giống nhau.
+   - Quyết định: gán van khi thấy rõ thân xe cao, phần đuôi dạng hộp vuông
+     hoặc có dạng xe chở người/chở hàng cỡ lớn; nếu không thấy rõ các đặc
+     điểm này thì gán car (lớp phổ biến hơn).
+   - Lý do: nhìn từ camera trên cao và từ xa, hai loại rất dễ nhầm; quy tắc
+     mặc định về car giúp gán nhất quán giữa các ảnh.
+2. Xe bị cắt ở mép khung nên chỉ thấy một phần, khó nhận ra lớp.
+   - Quyết định: gán nếu phần nhìn thấy đủ để nhận ra lớp, vẽ box ôm phần
+     nhìn thấy; nếu chỉ thấy một mảng nhỏ không phân biệt được thì bỏ.
+   - Lý do: tránh đoán lớp khi thiếu thông tin, đồng thời không bỏ sót xe
+     thấy rõ ở rìa ảnh.
+3. Xe nhỏ ở xa: ban đầu tôi gán tất cả, nhưng khi so với gold thì thừa rất
+   nhiều box (1778 box so với 653 của gold).
+   - Quyết định: đặt ngưỡng diện tích như trên.
+   - Lý do: giảm box thừa. Lưu ý: ngưỡng được chọn bằng cách dò theo điểm so
+     với gold, không hoàn toàn từ quan sát ảnh.
 
-- Box bám sát vật thể nghĩa là: ...
-- Vật thể bị che khuất: ...
-- Vật thể bị cắt bởi rìa ảnh: ...
-- Vật thể rất nhỏ/mơ hồ: ...
-
-## Ghi lại quyết định cho ít nhất ba ca mơ hồ
-
-| Ảnh | Tình huống | Quyết định cuối | Lý do theo schema |
-| --- | --- | --- | --- |
-| `drive_...` | | | |
-| `drive_...` | | | |
-| `drive_...` | | | |
+## Ghi chú về ID lớp
+Nhãn ban đầu có ID lớp lệch so với gold. Tôi phát hiện khi so với gold và sửa
+bằng ánh xạ 1->2, 2->3, 3->1. Nguyên nhân chưa xác nhận.
